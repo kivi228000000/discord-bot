@@ -1,0 +1,45 @@
+import discord
+from discord.ext import commands
+import random
+import os
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Бот {bot.user} запущен!')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Привет! Я чат-бот {bot.user}!')
+
+@bot.command()
+async def garb(ctx):
+    await ctx.send(f'Привет! Ты юный подросток хочешь помочь природе?')
+
+@bot.command()
+async def yes(ctx):
+    await ctx.send(f'Отлично! Тогда тебе стоит начать разделять отходы на категории стекло, пластик и т.д. Также не мусори на природе, не жги костры в неположенных местах и после пикника не оставляй мусор. ')
+
+@bot.command()
+async def podelka(ctx):
+    image_name = random.choice(os.listdir('images1'))
+    with open(f'images1/{image_name}', 'rb') as f:
+        # В переменную кладем файл, который преобразуется в файл библиотеки Discord!
+        picture = discord.File(f)
+
+   # Можем передавать файл как параметр!
+    await ctx.send(file=picture)   
+
+@bot.command()
+async def possi(ctx):
+    await ctx.send(f'Я могу отправлять различные картинки с самоделками из мусора, а также могу рассказать что нужно делать чтобы не загрязнять природу. ')
+
+@bot.command()
+async def A(ctx):
+    await ctx.send(f'список моих команд: $hello - приветсвие бота, $possi - функционал бота, $garb $yes - диалог с ботом, $podelka - отправляет фото самоделок из мусора.')
+
+bot.run("ЗДЕСЬ ДОЛЖЕН БЫТЬ ВАШ ТОКЕН")
